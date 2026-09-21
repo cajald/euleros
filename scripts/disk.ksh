@@ -8,7 +8,7 @@ set -eu
 KERNEL="euclid/euclid64.elf"
 LIMINE="Limine"
 ISO_ROOT="iso_root"
-ISO="euclid64.iso"
+ISO="euler64.iso"
 
 if [[ ! -f "$KERNEL" ]]; then
 	print -u2 "error: kernel not found: $KERNEL"
