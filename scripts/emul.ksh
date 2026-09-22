@@ -7,7 +7,9 @@ set -eu
 
 DISK="euclid64.iso"
 
-./scripts/disk.ksh
+if ! [[ -f "$DISK" ]]; then
+	./scripts/disk.ksh
+fi
 
 exec qemu-system-x86_64 \
 	-cdrom "$DISK" \

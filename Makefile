@@ -11,8 +11,6 @@ all:
 	${MAKE} -C ${DIRS} all
 .endfor
 
-for dir
-
 # huh
 .DEFAULT:
 .for dir in ${DIRS}
