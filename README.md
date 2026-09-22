@@ -34,7 +34,7 @@ $ sudo xbps-install -S   # sync repos
 $ sudo xbps-install tcc fasm oksh bmake
 ```
 
-If you want, you can also use `xbps-src` ¯\(ツ)/¯.
+If you want, you can also use `xbps-src` ¯\\(ツ)/¯.
 
 Now just run `make` and if it succeeds, run the `scripts/disk.ksh` script to
 make an `euler64.iso` file.
