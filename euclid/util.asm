@@ -42,14 +42,14 @@ outb:
 ; uint16_t inw(uint16_t port) -- get data from a port; but now 16 bits
 inw:
 	mov dx, di
-	in al, dx
+	in ax, dx
 	ret
 
 ; void outw(uint16_t port, uint16_t word) -- write data to a port; but now 16
 ; bits
 outw:
 	mov dx, di
-	mov al, sil
-	out dx, al
+	mov ax, si
+	out dx, ax
 	ret
 
