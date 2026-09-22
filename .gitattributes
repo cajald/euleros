@@ -1,0 +1,26 @@
+#
+# .gitattributes -- tell Git how to treat files
+#
+
+*.c   text eol=lf
+*.h   text eol=lf
+*.asm text eol=lf
+*.s   text eol=lf
+*.S   text eol=lf
+
+Makefile text eol=lf
+*.mk    text eol=lf
+*.sh    text eol=lf
+*.ksh   text eol=lf
+*.md    text eol=lf
+*.txt   text eol=lf
+LICENSE text eol=lf
+
+*.d text eol=lf
+
+*.o   binary
+*.iso binary
+*.img binary
+*.bin binary
+*.efi binary
+*.EFI binary
