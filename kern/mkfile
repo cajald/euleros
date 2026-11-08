@@ -1,0 +1,49 @@
+
+
+#
+# mkfile -- build system
+#
+
+CC=clang
+LD=ld.lld
+AS=fasm
+
+# Target
+LLVMTARG=x86_64-unknown-none-elf
+
+# Compiler flags
+CFLAGS=-target $LLVMTARG '-std=gnu11' -ffreestanding \
+	-fno-stack-protector -fno-pie -fno-pic \
+	-m64 -mno-red-zone -mno-mmx -mno-sse -mno-sse2 \
+	-O2 -Wall -Wextra -Iinclude
+
+# Linker flags
+LDFLAGS=-nostdlib -static -z 'max-page-size=0x1000' \
+	-T linker.lds -m elf_x86_64
+
+BUILD=../build
+
+ASMFILES=entry.asm
+CFILES=main.c
+
+OFILES=${CFILES:%.c=$BUILD/%.o} \
+       ${ASMFILES:%.asm=$BUILD/%.o}
+
+all:V: $BUILD/kernel.elf
+
+$BUILD/kernel.elf: $OFILES linker.lds
+	$LD $LDFLAGS -o $target $OFILES
+
+# C compilation
+$BUILD/%.o: %.c
+	mkdir -p "$(dirname "$target")"
+	$CC $CFLAGS -c $stem.c -o $target
+
+# FASM assembly
+$BUILD/%.o: %.asm
+	mkdir -p "$(dirname "$target")"
+	$AS $stem.asm $target
+
+clean:V:
+	rm -rf $BUILD
+

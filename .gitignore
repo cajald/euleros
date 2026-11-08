@@ -1,0 +1,18 @@
+#
+# .gitignore -- ignore artifacts
+#
+
+*.tmp
+*.o
+*.so
+*.dll
+*.elf
+build/
+.vscode/
+*.swo
+*.swp
+*.swa
+~*
+\#*
+.idea/
+
