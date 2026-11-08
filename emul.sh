@@ -1,51 +1,38 @@
 #!/bin/sh
 #
-# emul.sh -- emulation
+# emul.sh -- QEMU x86_64 emulation
 #
 
 IMG=build/argon.img
-CONFIG=build/bochsrc
+LOG=build/qemu.log
 
-BIOS=/usr/share/bochs/BIOS-bochs-latest
-VGA=/usr/share/bochs/vgabios-cirrus.bin-1.13.0
+QEMU=qemu-system-x86_64
 
-if ! [ -f $IMG ]; then
-	echo Disk image is missing. Run disk.rc first
-	exit 1
+if ! [ -f "$IMG" ]; then
+    echo "Disk image is missing. Run disk.rc first"
+    exit 1
 fi
 
-if ! [ -f $BIOS ]; then
-	echo Bochs bios not found: $BIOS
-	echo Change bios in emul.sh to match your install
-	exit 1
+if ! command -v "$QEMU" >/dev/null 2>&1; then
+    echo "QEMU not found: $QEMU"
+    echo "Install qemu-system-x86"
+    exit 1
 fi
-
-if ! [ -f $VGA ]; then
-	echo Bochs vga bios not found: $VGA
-	echo Change vga in emul.sh to match your install
-	exit 1
-fi
-
-echo '==> Generating bochs config'
 
 mkdir -p build
-cat > $CONFIG <<EOF
-megs: 64
-romimage: file=$BIOS
-vgaromimage: file=$VGA
 
-boot: floppy
-floppya: 2_88=$IMG, status=inserted
-log: build/bochs.log
-clock: sync=realtime
-mouse: enabled=1
-panic: action=ask
-error: action=report
-info: action=ignore
-debug: action=ignore
-EOF
+echo '==> Starting QEMU'
 
-echo '==> Starting bochs'
-
-bochs -q -f $CONFIG
+exec "$QEMU" \
+    -machine pc \
+    -cpu qemu64 \
+    -m 64M \
+    -drive file="$IMG",format=raw,if=ide,index=0 \
+    -boot order=c \
+    -vga std \
+    -rtc clock=host \
+    -serial stdio \
+    -no-reboot \
+    -no-shutdown \
+    -D "$LOG"
 
