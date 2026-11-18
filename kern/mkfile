@@ -14,8 +14,8 @@ LLVMTARG=x86_64-unknown-none-elf
 # Compiler flags
 CFLAGS=-target $LLVMTARG '-std=gnu11' -ffreestanding \
 	-fno-stack-protector -fno-pie -fno-pic \
-	-m64 -mno-red-zone -mno-mmx -mno-sse -mno-sse2 \
-	-O2 -Wall -Wextra -Iinclude
+	-m64 -mno-red-zone -O2 -Wall -Wextra -mno-mmx \
+	-mno-sse -mno-sse2 -Iinclude -mcmodel=kernel
 
 # Linker flags
 LDFLAGS=-nostdlib -static -z 'max-page-size=0x1000' \
@@ -24,7 +24,7 @@ LDFLAGS=-nostdlib -static -z 'max-page-size=0x1000' \
 BUILD=../build
 
 ASMFILES=entry.asm
-CFILES=main.c
+CFILES=fb.c main.c stb.c
 
 OFILES=${CFILES:%.c=$BUILD/%.o} \
        ${ASMFILES:%.asm=$BUILD/%.o}

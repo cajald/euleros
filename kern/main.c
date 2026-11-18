@@ -2,7 +2,11 @@
  * main.c -- entry but now in c
  */
 
+#include <limine.h>
 #include <stdint.h>
+
+#include <drv.h>
+#include "dpy.h"
 
 __attribute__((used, section(".limine_requests")))
 static volatile uint64_t limine_base_revision[3] = {
@@ -14,5 +18,13 @@ static volatile uint64_t limine_base_revision[3] = {
 void
 kmain(void)
 {
+	struct limine_framebuffer* fb = getfb();
+	if (!fb)
+		for (;;) asm volatile ("hlt");
+
+	checkers(fb);
+	xyputpx(fb, 10, 10, fromargb(fb, 252, 0, 222, 255));
 }
+
+Drv* drv;
 
